@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ShopSmart-Platform/static/css/main.3bd9fc2b.css",
+    "main.js": "/ShopSmart-Platform/static/js/main.ee2a5929.js",
+    "index.html": "/ShopSmart-Platform/index.html",
+    "main.3bd9fc2b.css.map": "/ShopSmart-Platform/static/css/main.3bd9fc2b.css.map",
+    "main.ee2a5929.js.map": "/ShopSmart-Platform/static/js/main.ee2a5929.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3bd9fc2b.css",
+    "static/js/main.ee2a5929.js"
+  ]
+}
