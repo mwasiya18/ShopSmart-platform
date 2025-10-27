@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopSmart - Products</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1>ShopSmart</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="product.html">Product</a>
+        <a href="cart.html">Cart</a>
+      </nav>
+      <button id="themeToggle">Toggle Dark Mode</button>
+    </header>
+
+    <main class="centered">
+      <section class="product-grid">
+        <div class="product-card">
+          <img src="assets/product1.jpg" alt="Wireless Headphones" />
+          <h3>Wireless Headphones</h3>
+          <p class="price">₹1,999</p>
+          <p class="description">Immerse yourself in rich audio with noise cancellation and 20-hour battery life. Ideal for music, calls, and travel.</p>
+          <button onclick="addToCart('Wireless Headphones', 1999)">Add to Cart</button>
+        </div>
+
+        <div class="product-card">
+          <img src="assets/product2.jpg" alt="Smart Watch" />
+          <h3>Smart Watch</h3>
+          <p class="price">₹2,999</p>
+          <p class="description">Track your fitness, monitor heart rate, and receive notifications—all from your wrist. Sleek and water-resistant.</p>
+          <button onclick="addToCart('Smart Watch', 2999)">Add to Cart</button>
+        </div>
+
+        <div class="product-card">
+          <img src="assets/product3.jpg" alt="Bluetooth Speaker" />
+          <h3>Bluetooth Speaker</h3>
+          <p class="price">₹1,499</p>
+          <p class="description">Portable speaker with deep bass and crystal-clear sound. Perfect for parties, picnics, and personal use.</p>
+          <button onclick="addToCart('Bluetooth Speaker', 1499)">Add to Cart</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2025 ShopSmart. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
