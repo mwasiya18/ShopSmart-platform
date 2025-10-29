@@ -21,3 +21,9 @@ app.use('/recommend', recommendationRoutes);
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
+
+console.log('✅ Routes loaded:', {
+  products: typeof productRoutes,
+  recommend: typeof recommendationRoutes,
+  push: typeof pushRoutes
+});

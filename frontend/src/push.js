@@ -1,39 +1,31 @@
-// client/src/push.js
-
-export async function subscribeUser() {
-  if (!('serviceWorker' in navigator)) {
-    console.error('Service workers are not supported.');
-    return;
+export function subscribeToPush() {
+  if ('serviceWorker' in navigator && 'PushManager' in window) {
+    navigator.serviceWorker.ready.then(registration => {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array('BGvXL4hdyBcgehAhHXQqsPfpDJixflxaN7FTAC1WmI-xCrQLwG28_Py1yNapHo0EbXDGnRQ5CeGolqwE_mBvdj0')
+          }).then(subscription => {
+            // Send subscription to backend
+            fetch('http://localhost:5000/api/push/subscribe', {
+              method: 'POST',
+              body: JSON.stringify(subscription),
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+          });
+        }
+      });
+    });
   }
-
-  const registration = await navigator.serviceWorker.ready;
-
-  const subscription = await registration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array('BJqdwcvAHUZMG6VjbRxZmiPaiYT1CIAMKZiNizEKvNR-7dGajmV2zUhKXAQd8LQwjAV76q1Wiah2LRgbA0UMzBg')
-  });
-
-  await fetch('/subscribe', {
-    method: 'POST',
-    body: JSON.stringify(subscription),
-    headers: { 'Content-Type': 'application/json' }
-  });
-
-  console.log('User subscribed to push notifications.');
 }
 
 // Helper to convert VAPID key
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
-    .replace(/_/g, '/');
-
+  const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
   const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
+  return Uint8Array.from([...rawData].map(char => char.charCodeAt(0)));
 }

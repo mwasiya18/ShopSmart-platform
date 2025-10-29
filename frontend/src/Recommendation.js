@@ -8,7 +8,7 @@ function Recommendation({ productId }) {
   useEffect(() => {
     if (!productId) return;
 
-    fetch(`/recommend/${productId}`)
+    fetch(`http://localhost:5000/api/recommend/1`)
       .then(res => res.json())
       .then(data => setRelated(data))
       .catch(err => console.error('Error fetching recommendations:', err));

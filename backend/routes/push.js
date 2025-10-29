@@ -1,37 +1,39 @@
-// server/push.js
-
 const express = require('express');
+const router = express.Router();
 const webpush = require('web-push');
-const bodyParser = require('body-parser');
-
-const app = express();
-app.use(bodyParser.json());
 
 // Replace with your actual VAPID keys
-const publicVapidKey = 'BJqdwcvAHUZMG6VjbRxZmiPaiYT1CIAMKZiNizEKvNR-7dGajmV2zUhKXAQd8LQwjAV76q1Wiah2LRgbA0UMzBg';
-const privateVapidKey = 'K9eW4wOVP4KL4-MSGDqwjRau77MRButKX4NfNBUEBko';
+const publicVapidKey = 'BGvXL4hdyBcgehAhHXQqsPfpDJixflxaN7FTAC1WmI-xCrQLwG28_Py1yNapHo0EbXDGnRQ5CeGolqwE_mBvdj0';
+const privateVapidKey = '_T_MelFRoSfhkTMq1DmzSiFTGbb5C8t6FKTnLR3YO_Q';
 
 webpush.setVapidDetails(
-  'mailto:you@example.com',
+  'mailto:your@email.com',
   publicVapidKey,
   privateVapidKey
 );
 
-// Endpoint to receive subscription and send notification
-app.post('/subscribe', (req, res) => {
+// Store subscriptions in memory (or use DB)
+let subscriptions = [];
+
+// 🔹 Receive subscription from frontend
+router.post('/subscribe', (req, res) => {
   const subscription = req.body;
-
-  const payload = JSON.stringify({
-    title: 'Welcome to ShopSmart!',
-    body: 'Thanks for subscribing to notifications 🎉'
-  });
-
-  webpush.sendNotification(subscription, payload)
-    .then(() => res.status(201).json({}))
-    .catch(err => {
-      console.error('Error sending notification:', err);
-      res.status(500).json({ error: 'Notification failed' });
-    });
+  subscriptions.push(subscription);
+  res.status(201).json({ message: 'Subscribed successfully' });
 });
 
-module.exports = app;
+// 🔹 Trigger push notification manually
+router.post('/notify', (req, res) => {
+  const payload = JSON.stringify({
+    title: '🛍️ ShopSmart Alert',
+    body: 'New product recommendations available!',
+  });
+
+  subscriptions.forEach(sub => {
+    webpush.sendNotification(sub, payload).catch(err => console.error(err));
+  });
+
+  res.status(200).json({ message: 'Notifications sent' });
+});
+
+module.exports = router;
